@@ -89,17 +89,17 @@ def generate_launch_description():
         gazebo,
         rsp_robot1,
         spawn_robot1,
-        # RegisterEventHandler(
-        #     event_handler=OnProcessExit(
-        #         target_action=spawn_robot1,
-        #         on_exit=[load_joint_state_controller],
-        #     )
-        # ),
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=spawn_robot1,
+                on_exit=[load_joint_state_controller],
+            )
+        ),
 
-        # RegisterEventHandler(
-        #     event_handler=OnProcessExit(
-        #         target_action=load_joint_state_controller,
-        #         on_exit=[load_diff_drive_controller],
-        #     )
-        # ),
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=load_joint_state_controller,
+                on_exit=[load_diff_drive_controller],
+            )
+        ),
     ])

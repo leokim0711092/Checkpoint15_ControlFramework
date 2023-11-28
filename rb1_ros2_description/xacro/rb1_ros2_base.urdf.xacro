@@ -122,7 +122,7 @@
           <plugin>gazebo_ros2_control/GazeboSystem</plugin>
       </hardware>
     
-      <joint name="left_wheel_joint">
+      <joint name="robot_left_wheel_joint">
         <command_interface name="velocity">
           <param name="min">-1</param>
           <param name="max">1</param>
@@ -132,7 +132,7 @@
         <state_interface name="effort"/>
       </joint>
     
-      <joint name="right_wheel_joint">
+      <joint name="robot_right_wheel_joint">
         <command_interface name="velocity">
           <param name="min">-1</param>
           <param name="max">1</param>
