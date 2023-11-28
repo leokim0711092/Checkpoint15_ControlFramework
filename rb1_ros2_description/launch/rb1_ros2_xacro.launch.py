@@ -1,8 +1,9 @@
 import os
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
+from launch.actions import IncludeLaunchDescription, ExecuteProcess,RegisterEventHandler
 from launch.substitutions import Command, LaunchConfiguration
 from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.event_handlers import OnProcessExit
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 from ament_index_python.packages import get_package_prefix
@@ -52,7 +53,7 @@ def generate_launch_description():
     robot_desc_path = os.path.join(get_package_share_directory(
         "rb1_ros2_description"), "xacro", robot_desc_file)
 
-    robot_name_1 = "rb1_robot"
+    robot_name_1 = ""
 
     rsp_robot1 = Node(
         package='robot_state_publisher',
@@ -64,6 +65,7 @@ def generate_launch_description():
         output="screen"
     )
 
+
     spawn_robot1 = Node(
         package='gazebo_ros',
         executable='spawn_entity.py',
@@ -71,8 +73,33 @@ def generate_launch_description():
                    '-topic', robot_name_1+'/robot_description']
     )
 
+    load_joint_state_controller = ExecuteProcess(
+        cmd=['ros2', 'control', 'load_controller', '--set-state', 'start',
+             'joint_state_broadcaster'],
+        output='screen'
+    )
+
+    load_diff_drive_controller = ExecuteProcess(
+        cmd=['ros2', 'control', 'load_controller', '--set-state', 'start',
+             'diffbot_base_controller'],
+        output='screen'
+    )
+
     return LaunchDescription([
         gazebo,
         rsp_robot1,
         spawn_robot1,
+        # RegisterEventHandler(
+        #     event_handler=OnProcessExit(
+        #         target_action=spawn_robot1,
+        #         on_exit=[load_joint_state_controller],
+        #     )
+        # ),
+
+        # RegisterEventHandler(
+        #     event_handler=OnProcessExit(
+        #         target_action=load_joint_state_controller,
+        #         on_exit=[load_diff_drive_controller],
+        #     )
+        # ),
     ])
