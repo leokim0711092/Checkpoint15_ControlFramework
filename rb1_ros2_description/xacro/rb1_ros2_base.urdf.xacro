@@ -144,6 +144,11 @@
     
     </ros2_control>
 	<!-- <xacro:ros2_control/> -->
-
+    <gazebo>
+        <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+            <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
+            <parameters>$(find rb1_ros2_description)/config/rb1_controller.yaml</parameters>
+        </plugin>
+    </gazebo>
 
 </robot>
