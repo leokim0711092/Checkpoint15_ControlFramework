@@ -73,6 +73,13 @@ def generate_launch_description():
                    '-topic', robot_name_1+'/robot_description']
     )
 
+    wait_for_controller_manager_service = Node(
+    package='rb1_ros2_description',  # Replace with the actual package name
+    executable='wait_for_service_node',  # Replace with the actual executable name
+    name='wait_for_controller_manager_service',
+    output='screen',
+    )
+
     load_joint_state_controller = ExecuteProcess(
         cmd=['ros2', 'control', 'load_controller', '--set-state', 'start',
              'joint_state_broadcaster'],
@@ -81,7 +88,7 @@ def generate_launch_description():
 
     load_diff_drive_controller = ExecuteProcess(
         cmd=['ros2', 'control', 'load_controller', '--set-state', 'start',
-             'diffbot_base_controller'],
+             'rb1_base_controller'],
         output='screen'
     )
 
@@ -89,9 +96,10 @@ def generate_launch_description():
         gazebo,
         rsp_robot1,
         spawn_robot1,
+        wait_for_controller_manager_service,
         RegisterEventHandler(
             event_handler=OnProcessExit(
-                target_action=spawn_robot1,
+                target_action=wait_for_controller_manager_service,
                 on_exit=[load_joint_state_controller],
             )
         ),
