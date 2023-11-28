@@ -7,6 +7,9 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(controller_manager_msgs REQUIRED)
+
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
@@ -21,6 +24,12 @@ if(BUILD_TESTING)
   #set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
+
+add_executable(wait_for_service_node src/wait_for_service.cpp)
+ament_target_dependencies(wait_for_service_node rclcpp controller_manager_msgs)
+install(TARGETS
+  wait_for_service_node
+  DESTINATION lib/${PROJECT_NAME})
 
 install(
   DIRECTORY
