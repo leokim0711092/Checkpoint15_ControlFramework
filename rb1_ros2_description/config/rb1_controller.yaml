@@ -5,8 +5,22 @@ controller_manager:
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
+    joint_trajectory_controller:
+          type: joint_trajectory_controller/JointTrajectoryController
+
     rb1_base_controller:
       type: diff_drive_controller/DiffDriveController
+
+joint_trajectory_controller:
+  ros__parameters:
+    joints:
+      - robot_elevator_platform_joint
+    interface_name: position
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
 
 rb1_base_controller:
   ros__parameters:
