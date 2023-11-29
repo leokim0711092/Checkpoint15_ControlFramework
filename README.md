@@ -55,7 +55,7 @@ ros2 topic pub --rate 10 /rb1_base_controller/cmd_vel_unstamped geometry_msgs/ms
 ```
  ros2 action send_goal /joint_trajectory_controller/follow_joint_trajectory control_msgs/action/FollowJointTrajectory "{trajectory: {joint_names: ['robot_elevator_platform_joint'], points: [{positions: [0.05], time_from_start: {sec: 1, nanosec: 0}}]}}"
 ```
-3.
+3. Elevator down
 ```
  ros2 action send_goal /joint_trajectory_controller/follow_joint_trajectory control_msgs/action/FollowJointTrajectory "{trajectory: {joint_names: ['robot_elevator_platform_joint'], points: [{positions: [0.00], time_from_start: {sec: 1, nanosec: 0}}]}}"
 ```
