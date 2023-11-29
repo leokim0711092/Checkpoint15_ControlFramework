@@ -92,6 +92,12 @@ def generate_launch_description():
         output='screen'
     )
 
+    load_joint_controller = ExecuteProcess(
+        cmd=['ros2', 'control', 'load_controller', '--set-state', 'start',
+             'joint_trajectory_controller'],
+        output='screen'
+    )
+
     return LaunchDescription([
         gazebo,
         rsp_robot1,
@@ -108,6 +114,13 @@ def generate_launch_description():
             event_handler=OnProcessExit(
                 target_action=load_joint_state_controller,
                 on_exit=[load_diff_drive_controller],
+            )
+        ),
+
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=load_diff_drive_controller,
+                on_exit=[load_joint_controller],
             )
         ),
     ])
